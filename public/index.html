@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Processing Uploader</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#uploader-heading">Skip to main content</a>
+    <header class="page-header" role="banner">
+      <div class="inner">
+        <h1 class="page-title">Image Processing Uploader</h1>
+        <p class="subtitle">
+          Upload one or many images, track their processing progress, and download the results when they are ready.
+        </p>
+      </div>
+    </header>
+    <main class="page-content" id="main" tabindex="-1">
+      <section class="uploader" aria-labelledby="uploader-heading">
+        <div class="section-heading">
+          <h2 id="uploader-heading">Upload images</h2>
+          <p id="uploader-description">Drag and drop files or browse your computer to queue multiple images.</p>
+        </div>
+        <div
+          id="dropZone"
+          class="drop-zone"
+          role="button"
+          tabindex="0"
+          aria-labelledby="uploader-heading uploader-description"
+          aria-describedby="dropzone-help"
+        >
+          <div class="drop-zone__icon" aria-hidden="true">
+            <svg width="48" height="48" viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+              <path
+                d="M12 5a1 1 0 0 1 1 1v5h5a1 1 0 1 1 0 2h-5v5a1 1 0 1 1-2 0v-5H6a1 1 0 0 1 0-2h5V6a1 1 0 0 1 1-1Z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
+          <p class="drop-zone__prompt">
+            <span class="drop-zone__accent">Drag &amp; drop</span> images here or
+            <button type="button" class="drop-zone__browse" data-action="browse">browse</button>
+          </p>
+          <p id="dropzone-help" class="drop-zone__help">JPEG, PNG, GIF, and WebP up to 25&nbsp;MB each.</p>
+          <input type="file" id="fileInput" class="drop-zone__input" accept="image/*" multiple aria-hidden="true" tabindex="-1" />
+        </div>
+        <div class="uploader__actions">
+          <button type="button" id="processAllBtn" class="btn btn-primary" disabled aria-disabled="true">Process all</button>
+          <button type="button" id="downloadZipBtn" class="btn btn-secondary" disabled aria-disabled="true">Download ZIP</button>
+        </div>
+      </section>
+
+      <section class="feedback" aria-live="polite">
+        <div id="alertRegion" class="alert-region" role="status" hidden></div>
+      </section>
+
+      <section class="queue" aria-labelledby="queue-heading">
+        <div class="section-heading">
+          <h2 id="queue-heading">Upload queue</h2>
+          <p class="muted">Monitor upload progress, processing status, and downloads.</p>
+        </div>
+        <p class="queue__empty" data-empty-message>No files queued yet. Your uploads will appear here.</p>
+        <ul id="fileList" class="queue__list" role="list"></ul>
+      </section>
+    </main>
+
+    <template id="fileItemTemplate">
+      <li class="file-item" data-status="queued">
+        <div class="file-item__previews">
+          <figure class="thumb" data-thumb="original">
+            <div class="thumb__media" data-role="original-thumb">
+              <img src="" alt="" />
+            </div>
+            <figcaption>Original</figcaption>
+          </figure>
+          <figure class="thumb" data-thumb="processed">
+            <div class="thumb__media" data-role="processed-thumb">
+              <img src="" alt="" />
+            </div>
+            <figcaption>Processed</figcaption>
+          </figure>
+        </div>
+        <div class="file-item__body">
+          <div class="file-item__summary">
+            <h3 class="file-name"></h3>
+            <span class="file-size" aria-label="File size"></span>
+          </div>
+          <progress class="file-progress" value="0" max="100"></progress>
+          <div class="file-status" role="status"></div>
+        </div>
+        <div class="file-item__actions">
+          <button type="button" class="btn btn-tertiary" data-action="process-one">Process</button>
+          <a class="btn-link" data-role="download-original" href="#" download>Download original</a>
+          <a class="btn-link" data-role="download-processed" href="#" download hidden>Download processed</a>
+        </div>
+      </li>
+    </template>
+
+    <div id="liveRegion" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+    <div id="toastRegion" class="toast-container" role="region" aria-live="assertive"></div>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
