@@ -1,0 +1,6 @@
+fastapi
+uvicorn[standard]
+rembg
+Pillow
+python-multipart
+pydantic>=1.10,<2.0
